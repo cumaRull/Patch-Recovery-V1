@@ -24,18 +24,21 @@ jobs:
         sudo apt install git wget lz4 tar openssl python3 -y
 
     - name: Fetch image from URL
+      working-directory: ${GITHUB_WORKSPACE}
       run: |
         ls
         pwd
         wget ${{github.event.inputs.RECOVERY_URL }}
 
     - name: Patch Process-1
+      working-directory: ${GITHUB_WORKSPACE}
       run: |
         chmod a+x script1.sh
         chmod a+x magiskboot
         ./script1.sh || true
 
     - name: Patch Process-2
+      working-directory: ${GITHUB_WORKSPACE}
       run: |
         chmod a+x script2.sh
         ./script2.sh || true
@@ -48,5 +51,5 @@ jobs:
     - name: Upload Recovery
       uses: actions/upload-artifact@v3.0.0
       with:
-        path: /home/runner/work/Patch-Recovery/Patch-Recovery/output/*.tar
+        path: ${GITHUB_WORKSPACE}/output/*.tar
         name: Patched-Recovery
